@@ -1,0 +1,166 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://player.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SegmentShape2D" id=1]
+
+custom_solver_bias = 0.0
+a = Vector2( 0, 0 )
+b = Vector2( -0.241577, 600.894 )
+
+[node name="main" type="Node" index="0"]
+
+script = ExtResource( 1 )
+
+[node name="player" parent="." index="0" instance=ExtResource( 2 )]
+
+position = Vector2( 510.447, 280.18 )
+
+[node name="coin_container" type="Node" parent="." index="1"]
+
+[node name="enemies" type="Node" parent="." index="2"]
+
+[node name="HUD" type="Control" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score_label" type="Label" parent="HUD" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 42.0
+margin_bottom = 16.0
+rect_scale = Vector2( 4, 4 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 1, 0.392157, 1 )
+text = "Score: 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors" ]
+
+[node name="time_label" type="Label" parent="HUD" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 624.0
+margin_top = 5.0
+margin_right = 723.0
+margin_bottom = 19.0
+rect_scale = Vector2( 4, 4 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 1, 0.117647, 0.117647, 1 )
+text = "Time Left: "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors" ]
+
+[node name="game_over" type="Label" parent="HUD" index="2"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 484.0
+margin_top = 281.0
+margin_right = -467.0
+margin_bottom = -305.0
+rect_pivot_offset = Vector2( 36, 7 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0.617188, 0.0578613, 0.0578613, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Game Over"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "Visibility" ]
+
+[node name="effect" type="Tween" parent="HUD/game_over" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="game_timer" type="Timer" parent="." index="4"]
+
+process_mode = 1
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="screen_limits" type="Area2D" parent="." index="5"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="left_side" type="CollisionShape2D" parent="screen_limits" index="0"]
+
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="right_side" type="CollisionShape2D" parent="screen_limits" index="1"]
+
+position = Vector2( 1024, 0 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="top" type="CollisionShape2D" parent="screen_limits" index="2"]
+
+position = Vector2( 1024, 0 )
+rotation = 1.5708
+scale = Vector2( 1, 1.75 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="bottom" type="CollisionShape2D" parent="screen_limits" index="3"]
+
+position = Vector2( 1024, 600 )
+rotation = 1.5708
+scale = Vector2( 1, 1.75 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="timeout" from="game_timer" to="." method="_on_game_timer_timeout"]
+
+

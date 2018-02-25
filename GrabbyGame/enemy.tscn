@@ -1,0 +1,168 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://enemy.gd" type="Script" id=1]
+[ext_resource path="res://art/Player/enemy1.png" type="Texture" id=2]
+[ext_resource path="res://art/Player/enemy2.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "vertical",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "horizontal",
+"speed": 4.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 11.5405
+height = 17.1999
+
+[node name="enemy" type="Area2D" index="0"]
+
+position = Vector2( 492.738, 273.333 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="AnimatedSprite" parent="." index="0"]
+
+scale = Vector2( 0.3, 0.3 )
+frames = SubResource( 2 )
+animation = "horizontal"
+playing = true
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="collision" type="CollisionShape2D" parent="." index="1"]
+
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="ray_cast_down" type="RayCast2D" parent="." index="2"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 0, 40 )
+collision_mask = 1
+
+[node name="ray_cast_up" type="RayCast2D" parent="." index="3"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 0, -40 )
+collision_mask = 1
+
+[node name="ray_cast_right" type="RayCast2D" parent="." index="4"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 40, 0 )
+collision_mask = 1
+
+[node name="ray_cast_left" type="RayCast2D" parent="." index="5"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( -40, 0 )
+collision_mask = 1
+
+[node name="move_tween" type="Tween" parent="." index="6"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="points" type="Label" parent="." index="7"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -40.0
+margin_right = 20.0
+margin_bottom = -26.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 20, 7 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 1, 0.392157, 1 )
+text = "-2"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "Visibility" ]
+
+[node name="points_effect" type="Tween" parent="points" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="time" type="Label" parent="." index="8"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 4.0
+margin_top = -8.0
+margin_right = 44.0
+margin_bottom = 6.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 20, 7 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 1, 0.117647, 0.117647, 1 )
+text = "-2"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility" ]
+
+[node name="time_effect" type="Tween" parent="time" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[connection signal="area_entered" from="." to="." method="_on_enemy_area_entered"]
+
+[connection signal="tween_completed" from="move_tween" to="." method="_on_move_tween_tween_completed"]
+
+[connection signal="tween_completed" from="points/points_effect" to="." method="_on_points_effect_tween_completed"]
+
+

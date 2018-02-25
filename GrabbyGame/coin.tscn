@@ -1,0 +1,126 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://coin.gd" type="Script" id=1]
+[ext_resource path="res://art/coinGold.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 19.5659
+
+[node name="coin" type="Area2D"]
+
+position = Vector2( 457.086, 254.39 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="Sprite" parent="." index="0"]
+
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="collision" type="CollisionShape2D" parent="." index="1"]
+
+shape = SubResource( 1 )
+
+[node name="effect" type="Tween" parent="." index="2"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="points" type="Label" parent="." index="3"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -40.0
+margin_right = 20.0
+margin_bottom = -26.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 20, 7 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 1, 0.392157, 1 )
+text = "+10"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility", "custom_colors" ]
+
+[node name="points_effect" type="Tween" parent="points" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="time" type="Label" parent="." index="4"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 20.0
+margin_right = 60.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 20, 7 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 1, 0.117647, 0.117647, 1 )
+text = "+1"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "Visibility", "custom_colors" ]
+
+[node name="time_effect" type="Tween" parent="time" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="spawn_effect" type="Tween" parent="." index="5"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[connection signal="area_entered" from="." to="." method="_on_coin_area_entered"]
+
+[connection signal="tween_completed" from="effect" to="." method="_on_effect_tween_completed"]
+
+
