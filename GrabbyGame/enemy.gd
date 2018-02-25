@@ -15,10 +15,6 @@ var moves = {'right': Vector2(1, 0),
 			'left': Vector2(-1, 0),
 			'up': Vector2(0, -1),
 			'down': Vector2(0, 1)}
-var raycasts = {'right': 'ray_cast_up',
-			'left': 'ray_cast_left',
-			'up': 'ray_cast_up',
-			'down': 'ray_cast_down'}
 
 signal damage
 
@@ -26,7 +22,6 @@ func _ready():
 	randomize()
 	screensize = get_viewport().size
 	extents = sprite.get_sprite_frames().get_frame("horizontal", 0).get_size() * sprite.get_scale() / 2
-	print(extents)
 	facing = moves.keys()[randi() % 4]	
 	points_effect.interpolate_property(points, "rect_position", Vector2(points.get_position()), Vector2(points.get_position() + Vector2(0, -60)), 
 									0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
@@ -39,14 +34,11 @@ func _ready():
 
 func _process(delta):
 	if can_move:
-		if not move(facing) or randi() % 10>5:
-			facing = moves.keys()[randi() % 4]
+		move(facing)
+		facing = moves.keys()[randi() % 4]
 
 func move(dir):
 	facing = dir
-	var ray = get_node(raycasts[facing])
-	if  ray.is_colliding() and ray.get_collider().get_name() != "player":
-		return
 	can_move = false
 	var end = position + moves[facing] * tile_size
 	end.x = clamp(end.x, extents.x, screensize.x - extents.x)
