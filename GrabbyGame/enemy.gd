@@ -7,6 +7,7 @@ onready var time = get_node("time")
 onready var points_effect = get_node("points/points_effect")
 onready var time_effect = get_node("time/time_effect")
 var screensize
+var extents
 var tile_size = 40
 var can_move = true
 var facing  = 'right'
@@ -24,6 +25,8 @@ signal damage
 func _ready():
 	randomize()
 	screensize = get_viewport().size
+	extents = sprite.get_sprite_frames().get_frame("horizontal", 0).get_size() * sprite.get_scale() / 2
+	print(extents)
 	facing = moves.keys()[randi() % 4]	
 	points_effect.interpolate_property(points, "rect_position", Vector2(points.get_position()), Vector2(points.get_position() + Vector2(0, -60)), 
 									0.3, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
@@ -45,9 +48,16 @@ func move(dir):
 	if  ray.is_colliding() and ray.get_collider().get_name() != "player":
 		return
 	can_move = false
-	move_tween.interpolate_property(self, "position", position, position + moves[facing] * tile_size, 
+	var end = position + moves[facing] * tile_size
+	end.x = clamp(end.x, extents.x, screensize.x - extents.x)
+	end.y = clamp(end.y, extents.y, screensize.y - extents.y)
+	move_tween.interpolate_property(self, "position", position, end,
 									0.8, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	move_tween.start()
+	if facing == "left":
+		sprite.set_flip_h(true)
+	elif facing == "right":
+		sprite.set_flip_h(false)
 	return true
 
 func _on_move_tween_tween_completed( object, key ):

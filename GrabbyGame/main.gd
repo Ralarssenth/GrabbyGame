@@ -48,6 +48,7 @@ func _on_game_timer_timeout():
 	set_process(false)
 	player.set_physics_process(false)
 	player.shape_owner_clear_shapes(0)
+	player.get_node("sprite")._set_playing(false)
 	effect.start()
 	game_over.set_visible(true)
 	time_label.set_text(str("Time Left: 0"))

@@ -24,6 +24,23 @@ func _physics_process(delta):
 	pos.x = clamp(pos.x, extents.x, screensize.x - extents.x)
 	pos.y = clamp(pos.y, extents.y, screensize.y - extents.y)
 	set_position(pos)
+	if vel == Vector2(0, 0):
+		sprite.set_animation("down")
+		sprite._set_playing(false)
+	elif vel.x > 0 and vel.y == 0:
+		sprite.set_animation("left_right")
+		sprite.set_flip_h(false)
+		sprite._set_playing(true)
+	elif vel.x < 0 and vel.y == 0:
+		sprite.set_animation("left_right")
+		sprite.set_flip_h(true)
+		sprite._set_playing(true)
+	elif vel.y < 0:
+		sprite.set_animation("up")
+		sprite._set_playing(true)
+	elif vel.y > 0:
+		sprite.set_animation("down")
+		sprite._set_playing(true)
 	
 func _on_damage():
 	slow.interpolate_property(self, "speed", 0, 500, 1.5, Tween.TRANS_SINE, Tween.EASE_IN)

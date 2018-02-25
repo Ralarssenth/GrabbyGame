@@ -15,17 +15,17 @@ animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "up",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "down",
-"speed": 6.0
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "left_right",
-"speed": 3.0
+"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -55,7 +55,7 @@ speed = 500
 
 scale = Vector2( 0.6, 0.6 )
 frames = SubResource( 1 )
-animation = "down"
+animation = "left_right"
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="collision" type="CollisionShape2D" parent="." index="1"]

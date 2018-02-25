@@ -19,10 +19,10 @@ signal coin_collected
 
 func _ready():
 	randomize()
-	extents = sprite.get_texture().get_size() * sprite.get_scale() / 2 
+	extents = sprite.get_sprite_frames().get_frame("spin", 0).get_size() * sprite.get_scale() / 2
 	screensize = get_viewport().size
-	pos_x = rand_range(0 + extents.x, screensize.x - extents.x)
-	pos_y = rand_range(0 + extents.y, screensize.y - extents.y)
+	pos_x = rand_range(extents.x, screensize.x - extents.x)
+	pos_y = rand_range(extents.y, screensize.y - extents.y)
 	var pts_pos = points.get_position()
 	var time_pos = time.get_position()
 	var vis = Color(1,1,1,1)
@@ -57,3 +57,4 @@ func _on_coin_area_entered( area ):
 
 func _on_effect_tween_completed( object, key ):
 	queue_free()
+
